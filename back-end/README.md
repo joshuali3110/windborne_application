@@ -1,5 +1,11 @@
 # Testing the Backend Locally
 
+## Activate Virtual Environment
+
+```bash
+source venv/bin/activate
+```
+
 ## Open Docker Desktop
 
 ## Start Redis
