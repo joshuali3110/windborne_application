@@ -28,7 +28,8 @@ const ArrowLayer = ({ data }) => {
     const colorScale = d3.interpolateViridis;
     
     data.forEach(({ lat, lon, wind_speed, wind_direction, altitude }) => {
-      const length = wind_speed * 50000; // Scale factor for visualization
+      wind_direction = wind_direction + 180;
+      const length = wind_speed * 25000; // Scale factor for visualization
       const normalizedAltitude = altitude / 40; // Normalize to 0-40 km scale
       const color = colorScale(normalizedAltitude);
       const rad = (wind_direction * Math.PI) / 180; // Convert degrees to radians
