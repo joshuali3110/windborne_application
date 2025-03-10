@@ -32,7 +32,7 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<h2 style={{ textAlign: "center" }}>Choose an hour from the dropdown above.</h2>} />
+        <Route path="/" element={<h2 style={{ textAlign: "center" }}>Choose an hour from the dropdown.</h2>} />
         <Route path="/hour/:hour" element={<PageWrapper data={data} />} />
       </Routes>
     </Router>
