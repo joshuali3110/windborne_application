@@ -32,8 +32,8 @@ app.add_middleware(
 
 constellation_url = 'https://a.windbornesystems.com/treasure/'
 open_meteo_url = 'https://api.open-meteo.com/v1/forecast'
-redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
-redis_client = redis.from_url(redis_url, decode_responses=True)
+redis_url = os.getenv("REDIS_URL")
+redis_client = redis.Redis.from_url(redis_url, decode_responses=True)
 CACHE_KEY = "cached_data"
 CACHE_EXPIRY = 3600
 
