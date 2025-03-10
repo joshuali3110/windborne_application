@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/data")
+    fetch("https://windborne-application-dg38.onrender.com/data")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch wind data");
