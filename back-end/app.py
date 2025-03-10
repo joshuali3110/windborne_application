@@ -5,6 +5,9 @@ import asyncio
 import math
 import redis
 import json
+from datetime import datetime
+import pytz
+from fastapi.middleware.cors import CORSMiddleware
 
 # def query_constellation():
 #     url = 'https://a.windbornesystems.com/treasure/00.json'
@@ -18,7 +21,16 @@ import json
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Allows React frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
 constellation_url = 'https://a.windbornesystems.com/treasure/'
+open_meteo_url = 'https://api.open-meteo.com/v1/forecast'
 redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 CACHE_KEY = "cached_data"
 CACHE_EXPIRY = 3600
@@ -43,7 +55,47 @@ async def query_hour(client, hour_num):
         # try:
         raw_json = response.json()
         sanitized = sanitize_json(raw_json)
-        return {hour_num: sanitized}
+
+        latitudes = "?latitude="
+        longitudes = "&longitude="
+        full_hour_data = []
+        num_locs_in_req = 0
+        wind_data = []
+        num_balloons = 15
+        for i in range(num_balloons):#len(sanitized)):
+            if isinstance(sanitized[i][0], str):
+                continue
+            
+            latitudes += str(sanitized[i][0])
+            longitudes += str(sanitized[i][1])
+            full_hour_data.append({"lat" : sanitized[i][0], "lon" : sanitized[i][1], "altitude" : sanitized[i][2]})
+            num_locs_in_req += 1
+
+            if num_locs_in_req == 200 or i == num_balloons - 1:#len(sanitized) - 1:
+                print("querying", num_locs_in_req)
+                url = open_meteo_url + latitudes + longitudes + '&hourly=wind_speed_180m,wind_direction_180m&timezone=America%2FLos_Angeles&past_days=1&forecast_days=1'
+                wind_data_200 = await client.get(url)
+                wind_data_200.raise_for_status()
+                wind_data_200 = wind_data_200.json()
+
+                wind_data = wind_data + wind_data_200
+                latitudes = "?latitude="
+                longitudes = "&longitude="
+                num_locs_in_req = 0
+            else:
+                latitudes += ","
+                longitudes += ","
+        
+        la_tz = pytz.timezone("America/Los_Angeles")
+        current_la_hour = datetime.now(la_tz).hour
+        hour_index = current_la_hour + 24 - hour_num
+
+        for i in range(len(full_hour_data)):
+            current_loc_data = wind_data[i]
+            full_hour_data[i]["wind_speed"] = current_loc_data["hourly"]["wind_speed_180m"][hour_index]
+            full_hour_data[i]["wind_direction"] = current_loc_data["hourly"]["wind_direction_180m"][hour_index]
+
+        return {hour_num: full_hour_data}
         # except ValueError:
         #     return {hour_num: f"Error: Invalid JSON response (status {response.status_code})"}
     except httpx.HTTPStatusError as e:
@@ -58,11 +110,6 @@ async def query_constellation():
         tasks = [query_hour(client, hour) for hour in range(24)]
         results = await asyncio.gather(*tasks)
     merged_results = {k: v for d in results for k, v in d.items()}
-
-    # merged_results = {}
-    # for hour in range(24):
-    #     current_hour_list = []
-    #     for point in merged_results[str(hour)]:
 
     redis_client.set(CACHE_KEY, json.dumps(merged_results), ex=CACHE_EXPIRY)
     return merged_results
