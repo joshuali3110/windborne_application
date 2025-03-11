@@ -7,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch("https://windborne-application-dg38.onrender.com/data")
       .then((response) => {
         if (!response.ok) {
@@ -16,13 +16,25 @@ function App() {
         return response.json();
       })
       .then((fetchedData) => {
-        setData(fetchedData); // Store full fetched data
+        setData(fetchedData);
         setLoading(false);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchData();
+
+    const getRandomInterval = () => Math.floor(Math.random() * (13 - 8 + 1) + 8) * 60000; // Random interval between 8-13 minutes
+
+    const interval = setInterval(() => {
+      fetchData();
+    }, getRandomInterval());
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -43,16 +55,12 @@ function NavBar() {
   const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Get the current hour from the URL
   const selectedHour = location.pathname.startsWith("/hour/") ? location.pathname.split("/hour/")[1] : null;
-
-  // Set the label dynamically
   const dropdownLabel = selectedHour !== null ? `${selectedHour} Hours Ago` : "Select Hour";
 
   return (
     <nav style={styles.navbar}>
       <Link to="/" style={styles.navBrand}>Home</Link>
-      
       <div style={styles.dropdown}>
         <button onClick={() => setDropdownOpen(!dropdownOpen)} style={styles.dropdownButton}>
           {dropdownLabel} ▼
