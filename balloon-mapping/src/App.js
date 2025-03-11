@@ -50,7 +50,7 @@ function App() {
                 Note: WindBorne has 1000 balloons in its balloon constellation, but only the first 15 returned by their API are displayed due to 
                 Open-Meteo's free API call limit of 10,000 calls per day. For this reason, the maps are also only updated every hour, even though
                 WindBorne's constellation API is updated more frequently than that. If more API calls were available, displaying more balloons
-                and updating the maps more often would be easily implementable.
+                and updating the maps more often would be easily implementable. <a href="https://github.com/joshuali3110/windborne_application/tree/deploy"> See the code on Github.</a>
               </p>
             </div>
           } 
