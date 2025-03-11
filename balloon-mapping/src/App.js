@@ -58,7 +58,7 @@ function App() {
                 You can click on the arrows for exact data on that particular balloon. Pages that say that "Balloon data is missing or corrupted"
                 are due to errors within WindBorne's API and dealing with this robustly is part of the assessment.
               </p>
-              <p style={{ marginTop: "10px", fontSize: "8px", color: "#777777" }}>
+              <p style={{ marginTop: "10px", fontSize: "12px", color: "#777777" }}>
                 Note: WindBorne has 1000 balloons in its balloon constellation, but only the first 15 returned by their API are displayed due to 
                 Open-Meteo's free API call limit of 10,000 calls per day. For this reason, the maps are also only updated every hour, even though
                 WindBorne's constellation API is updated more frequently than that. If more API calls were available, displaying more balloons
