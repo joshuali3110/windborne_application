@@ -63,7 +63,7 @@ async def query_hour(client, hour_num):
         full_hour_data = []
         num_locs_in_req = 0
         wind_data = []
-        num_balloons = 15
+        num_balloons = 45
         for i in range(num_balloons):#len(sanitized)):
             if isinstance(sanitized[i][0], str):
                 continue
