@@ -1,13 +1,142 @@
+:root {
+  /* Palette */
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f0f2f7;
+  --color-border: #e2e5ee;
+  --color-text: #16192a;
+  --color-text-muted: #575d72;
+  --color-text-subtle: #7b8194;
+  --color-accent: #3b5bdb;
+  --color-accent-hover: #2f4ac0;
+  --color-accent-soft: rgba(59, 91, 219, 0.1);
+  --color-danger: #d64545;
+  --color-danger-soft: rgba(214, 69, 69, 0.1);
+
+  /* Header is dark in both themes */
+  --color-header-bg: #16192a;
+  --color-header-text: #f4f5f9;
+  --color-header-control: rgba(255, 255, 255, 0.1);
+  --color-header-control-hover: rgba(255, 255, 255, 0.18);
+  --color-header-border: rgba(255, 255, 255, 0.12);
+
+  /* Shape & depth */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 1px 2px rgba(16, 19, 41, 0.06);
+  --shadow-md: 0 4px 16px rgba(16, 19, 41, 0.08);
+  --shadow-lg: 0 18px 48px rgba(16, 19, 41, 0.16);
+
+  /* Rhythm */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0e1018;
+    --color-surface: #171a26;
+    --color-surface-muted: #1e2231;
+    --color-border: #2a2f42;
+    --color-text: #eceef5;
+    --color-text-muted: #a5abbf;
+    --color-text-subtle: #868da3;
+    --color-accent: #8ba2ff;
+    --color-accent-hover: #a6b7ff;
+    --color-accent-soft: rgba(139, 162, 255, 0.14);
+    --color-danger: #ff8080;
+    --color-danger-soft: rgba(255, 128, 128, 0.12);
+
+    --color-header-bg: #12141f;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+  border-bottom-color: currentColor;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--font-mono);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

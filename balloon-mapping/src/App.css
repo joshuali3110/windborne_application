@@ -1,38 +1,366 @@
-.App {
-  text-align: center;
+/* ---------- Layout ---------- */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-5);
+  flex: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.page--wide {
+  max-width: 1180px;
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-header-border);
+}
+
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-header-text);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  padding: var(--space-2) var(--space-3);
+  margin-left: calc(var(--space-3) * -1);
+  border: 0;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s var(--ease);
+}
+
+.navbar__brand:hover {
+  color: var(--color-header-text);
+  background-color: var(--color-header-control);
+}
+
+.navbar__brand-icon {
+  font-size: 1.1em;
+  opacity: 0.85;
+}
+
+/* ---------- Dropdown ---------- */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-header-control);
+  color: var(--color-header-text);
+  border: 1px solid var(--color-header-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.dropdown__button:hover {
+  background-color: var(--color-header-control-hover);
+}
+
+.dropdown__chevron {
+  display: inline-flex;
+  font-size: 1.05em;
+  opacity: 0.8;
+  transition: transform 0.2s var(--ease);
+}
+
+.dropdown__chevron--open {
+  transform: rotate(180deg);
+}
+
+.dropdown__menu {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1200;
+  animation: dropdown-in 0.14s var(--ease);
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dropdown__item {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  transition: background-color 0.12s var(--ease), color 0.12s var(--ease);
+}
+
+.dropdown__item:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.dropdown__item--active {
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ---------- Home ---------- */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.home__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.home__lead {
+  color: var(--color-text-muted);
+  font-size: 1.0625rem;
+  text-align: left;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
+}
+
+.home__note {
+  color: var(--color-text-subtle);
+  font-size: 0.8125rem;
+  text-align: left;
+  padding: 0 var(--space-5);
+}
+
+/* ---------- Map page ---------- */
+
+.map-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.map-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.map-page__title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+}
+
+/* ---------- Arrow map ---------- */
+
+.arrow-map {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.arrow-map__container {
+  height: min(65vh, 560px);
+  width: 100%;
+  background-color: var(--color-surface-muted);
+}
+
+.arrow-map .leaflet-container {
+  font-family: var(--font-sans);
+}
+
+.arrow-map .leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.arrow-map .leaflet-popup-content {
+  margin: var(--space-3) var(--space-4);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.arrowhead__glyph {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 16px solid var(--arrowhead-color, currentColor);
+  transform: rotate(var(--arrowhead-angle, 0deg));
+}
+
+.popup__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  white-space: nowrap;
+}
+
+.popup__label {
+  color: #575d72;
+}
+
+.popup__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ---------- Legend ---------- */
+
+.legend {
+  position: absolute;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: 1000;
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.legend__title {
+  margin-bottom: var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.legend__scale {
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.legend__swatch {
+  width: 20px;
+  height: 10px;
+}
+
+.legend__labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-subtle);
+}
+
+/* ---------- Status states ---------- */
+
+.status {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: var(--space-3);
+  min-height: 60vh;
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.status__title {
+  font-size: 1.25rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.status__message {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  max-width: 42ch;
+}
+
+.status--error .status__title {
+  color: var(--color-danger);
+}
+
+.status__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.status__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 1.25rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 600px) {
+  .page {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .home__note {
+    padding: 0;
+  }
+
+  .home__lead {
+    padding: var(--space-4);
+  }
+
+  .legend {
+    bottom: var(--space-3);
+    right: var(--space-3);
   }
 }

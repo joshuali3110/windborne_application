@@ -12,10 +12,14 @@ function MapPage({ data }) {
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>{hour} hours ago</h1>
-      <ArrowMap data={hourData} />
-    </div>
+    <main className="page page--wide">
+      <div className="map-page">
+        <header className="map-page__header">
+          <h1 className="map-page__title">{hour} hours ago</h1>
+        </header>
+        <ArrowMap data={hourData} />
+      </div>
+    </main>
   );
 }
 
