@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/data")
+    fetch("https://windborne-application-dg38.onrender.com/data")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch wind data");
@@ -32,7 +32,29 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<h2 style={{ textAlign: "center" }}>Choose an hour from the dropdown above.</h2>} />
+        <Route 
+          path="/" 
+          element={
+            <div style={{ textAlign: "center" }}>
+              <h2>Choose an hour from the dropdown.</h2>
+              <p style={{ marginTop: "10px", fontSize: "16px", color: "#555" }}>
+                This project was built as a part of applications to <a href="https://windbornesystems.com/">WindBorne Systems'</a> intern roles for Summer 2025.
+                It <a href="https://a.windbornesystems.com/treasure/00.json">queries</a> the positions of WindBorne's global sounding balloons at 0 hours ago, 1 hour ago, 2 hours, ago, etc. all the way until 23 hours ago.
+                It then calls Open-Meteo's <a href="https://open-meteo.com/">open-source weather API</a> for 
+                wind speed and direction data at the positions of the balloons. <br />
+                The balloon positions are then plotted on the world map as arrows that represent wind speed and direction.
+                You can click on the arrows for exact data on that particular balloon. Pages that say that "Balloon data is missing or corrupted"
+                are due to errors within WindBorne's API and dealing with this robustly is part of the assessment.
+              </p>
+              <p style={{ marginTop: "10px", fontSize: "12px", color: "#777777" }}>
+                Note: WindBorne has 1000 balloons in its balloon constellation, but only the first 40 returned by their API are displayed due to 
+                Open-Meteo's free API call limit of 10,000 calls per day. For this reason, the maps are also only updated every hour, even though
+                WindBorne's constellation API is updated more frequently than that. If more API calls were available, displaying more balloons
+                and updating the maps more often would be easily implementable. <a href="https://github.com/joshuali3110/windborne_application/tree/deploy"> See the code on Github.</a>
+              </p>
+            </div>
+          } 
+        />
         <Route path="/hour/:hour" element={<PageWrapper data={data} />} />
       </Routes>
     </Router>

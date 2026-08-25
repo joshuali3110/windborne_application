@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 import pytz
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 # def query_constellation():
 #     url = 'https://a.windbornesystems.com/treasure/00.json'
@@ -23,7 +24,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allows React frontend
+    allow_origins=["*"],  # Allows React frontend
     allow_credentials=True,
     allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
@@ -31,7 +32,8 @@ app.add_middleware(
 
 constellation_url = 'https://a.windbornesystems.com/treasure/'
 open_meteo_url = 'https://api.open-meteo.com/v1/forecast'
-redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_url = os.getenv("REDIS_URL")
+redis_client = redis.Redis.from_url(redis_url, decode_responses=True)
 CACHE_KEY = "cached_data"
 CACHE_EXPIRY = 3600
 
@@ -61,7 +63,7 @@ async def query_hour(client, hour_num):
         full_hour_data = []
         num_locs_in_req = 0
         wind_data = []
-        num_balloons = 15
+        num_balloons = 40
         for i in range(num_balloons):#len(sanitized)):
             if isinstance(sanitized[i][0], str):
                 continue
