@@ -9,6 +9,9 @@ from datetime import datetime
 import pytz
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # def query_constellation():
 #     url = 'https://a.windbornesystems.com/treasure/00.json'

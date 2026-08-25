@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from "react-router-dom";
 import MapPage from "./pages/MapPage";
 
+const API_URL = process.env.REACT_APP_API_URL || "https://windborne-application-dg38.onrender.com";
+
 function App() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("https://windborne-application-dg38.onrender.com/data")
+    fetch(`${API_URL}/data`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch wind data");
